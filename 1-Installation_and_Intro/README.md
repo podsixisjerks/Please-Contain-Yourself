@@ -20,11 +20,11 @@ Text that looks `like this --for --example` are commands that you should type in
 
 First things first, let's install Docker:
 
-- [ ] Go to [Docker's website](https://www.docker.com/products/docker) and download the version that's appropriate for your operating system
+- [X] Go to [Docker's website](https://www.docker.com/products/docker) and download the version that's appropriate for your operating system
 
-- [ ] After you've dragged Docker into your Applications, find Docker in your Applications and click it to complete the installation
+- [X] After you've dragged Docker into your Applications, find Docker in your Applications and click it to complete the installation
 
-- [ ] Check to make sure everything worked correctly. Open up the terminal and type `docker --version`
+- [ X Check to make sure everything worked correctly. Open up the terminal and type `docker --version`
 
 You should see something like:
 ```sh
@@ -36,7 +36,7 @@ as long as it's NOT:
 ```
 If it looks like that then something went wrong with the download or installation. Oops.
 
-- [ ] Nice! Let's run your first Docker command! In the terminal type `docker info`
+- [X] Nice! Let's run your first Docker command! In the terminal type `docker info`
 
 You should see something like this: 
 
@@ -46,7 +46,7 @@ You should see something like this:
 
 This should make a little more sense as we go along - we'll be revisiting this command to see how our actions affect this report.
 
-- [ ] Now we're going to actually use Docker to spin up our first container. Hold onto your butt. Type:
+- [X] Now we're going to actually use Docker to spin up our first container. Hold onto your butt. Type:
 
 `docker run hello-world`
 
@@ -66,11 +66,11 @@ Status: Downloaded newer image for hello-world:latest
 
 ---
 
-- [ ] Check to make sure that your hello-world container logged the following: 
+- [X] Check to make sure that your hello-world container logged the following: 
 
 ![dockerhello](https://github.com/dylanlrrb/P-C-Y-Assets/blob/master/1/dockerhello.png?raw=true)
 
-- [ ] Congratulations!! If you've made it this far you have just created your first Docker container! Don't believe me? Check out `docker info` again, you should see this at the top of the report:
+- [X] Congratulations!! If you've made it this far you have just created your first Docker container! Don't believe me? Check out `docker info` again, you should see this at the top of the report:
 ```sh
 $ docker info
 Containers: 1
@@ -99,17 +99,17 @@ Images: 1
 
 Like I mentioned before, in the command `docker run hello-world`; 'hello-world' is the name of an image that you spun up a new container with. It is that container which actually ran and logged that message to the console.
 
-- [ ] There were two effects of running 'docker run hello-world'; the first is that it downloaded the 'hello-world' image from Dockerhub onto your machine. Run `docker images` to view the images that are cached on your machine. You should see:
+- [X] There were two effects of running 'docker run hello-world'; the first is that it downloaded the 'hello-world' image from Dockerhub onto your machine. Run `docker images` to view the images that are cached on your machine. You should see:
 
 ![dockerimages](https://github.com/dylanlrrb/P-C-Y-Assets/blob/master/1/dockerimages.png?raw=true)
 
-- [ ] The second effect is that it created and ran a container from that image. Run `docker ps -a` to see all of the containers on your machine. You should see something similar to this:
+- [X] The second effect is that it created and ran a container from that image. Run `docker ps -a` to see all of the containers on your machine. You should see something similar to this:
 
 ![dockerpsa1](https://github.com/dylanlrrb/P-C-Y-Assets/blob/master/1/dockerpsa1.png?raw=true)
 
 There's your first container! Isn't it handsome? There are several bits of information displayed with the `ps` command such as the image it was created from, how long ago it was spun up, and the container's status.
 
-- [ ] Now let's get a little tricky. Try spinning up 3 more containers from the hello-world image cached on your machine. If you did everything correctly, you should have seen the 'Hello from Docker!' message each time you successfully spun up a container.  
+- [X] Now let's get a little tricky. Try spinning up 3 more containers from the hello-world image cached on your machine. If you did everything correctly, you should have seen the 'Hello from Docker!' message each time you successfully spun up a container.  
 
 ---
 >I want to take a moment to explain the difference between using `docker ps` with and without the ` -a` flag.
@@ -132,7 +132,7 @@ Take note that, unless a name is given to the container explicitly, each contain
 
 ![dockernames](https://github.com/dylanlrrb/P-C-Y-Assets/blob/master/1/dockernames.png?raw=true)
 
-- [ ] Spin up one more hello-world container and give it a name by using the ` --name` flag like so:
+- [X] Spin up one more hello-world container and give it a name by using the ` --name` flag like so:
 
 `docker run --name punk_rock_unicorns hello-world`  
 

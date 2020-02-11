@@ -70,23 +70,23 @@ Luckily for you, this problem had already been solved for you before you even kn
 
 **Enter Docker Compose...**
 
-- [ ] Rather than spending forever talking about what Docker Compose does and why it's great, let's just dive into a demonstration. `cd` into the directory '/6-Docker_Compose_For_Multi-Container_Apps'
+- [X] Rather than spending forever talking about what Docker Compose does and why it's great, let's just dive into a demonstration. `cd` into the directory '/6-Docker_Compose_For_Multi-Container_Apps'
 
-- [ ] Run the command `ls` and notice that we have directories that contain the source code for the services of our polling app from the previous Module (the 'survey_server' and 'results_server'). Each of these directories contains it's own Dockerfile that defines the steps to build it's requisite image. This should all be familiar to you.
+- [X] Run the command `ls` and notice that we have directories that contain the source code for the services of our polling app from the previous Module (the 'survey_server' and 'results_server'). Each of these directories contains it's own Dockerfile that defines the steps to build its requisite image. This should all be familiar to you.
 
-- [ ] Also notice that there is a file in Module 6 that you may not be familiar with, the one named 'docker-compose.yml'. We'll dive into this shortly.
+- [X] Also notice that there is a file in Module 6 that you may not be familiar with, the one named 'docker-compose.yml'. We'll dive into this shortly.
 
-- [ ] Let's do this thing! Run `docker-compose up` ! 
+- [X] Let's do this thing! Run `docker-compose up` ! 
 
-- [ ] After all the logging has stopped go ahead and use your browser to navigate to `localhost:8080` and `localhost:3000` in separate tabs. Mess around with the app, create some entries, and see that everything works exactly as before!
+- [X] After all the logging has stopped go ahead and use your browser to navigate to `localhost:8080` and `localhost:3000` in separate tabs. Mess around with the app, create some entries, and see that everything works exactly as before!
 
 **How is this possible? We just ran a single command! This is WITCHCRAFT!**
 
 But, no. Not witchcraft. It's the magic of Docker Compose.
 
-- [ ] We brought up our app in an attached state so the innards of our app are still waiting for commands in the terminal. Press `Ctrl + C` to stop the containers.
+- [X] We brought up our app in an attached state so the innards of our app are still waiting for commands in the terminal. Press `Ctrl + C` to stop the containers.
 
-- [ ] **Docker Compose uses the 'docker-compose.yml' file as instructions for how to bring up our app.** Let's take a peek at it and break down how the 'docker-compose.yml' file is interpreted! Go ahead and open it up and you'll see this:
+- [X] **Docker Compose uses the 'docker-compose.yml' file as instructions for how to bring up our app.** Let's take a peek at it and break down how the 'docker-compose.yml' file is interpreted! Go ahead and open it up and you'll see this:
 
 ```
 version: '3'
@@ -156,23 +156,23 @@ Most of this should be old news to you, it's just formatted differently in the '
 
 Let's talk briefly about all the things that Compose made for you in the process of running `docker-compose up`
 
-- [ ] Run `docker images` and check out the images now on your machine. You should see a couple with really long names, but look at the end of the name and you'll see that Compose made an image for each service you defined in the '.yml' file. (The image names are so lengthy since it concatenates the directory name containing the '.yml' file onto the image name) If you already had the 'mongo:latest' image you will see that it didn't create a new image for the database service but opted to reuse the mongo image.
+- [X] Run `docker images` and check out the images now on your machine. You should see a couple with really long names, but look at the end of the name and you'll see that Compose made an image for each service you defined in the '.yml' file. (The image names are so lengthy since it concatenates the directory name containing the '.yml' file onto the image name) If you already had the 'mongo:latest' image you will see that it didn't create a new image for the database service but opted to reuse the mongo image.
 
-- [ ] Run `docker ps -a` to see all running and stopped containers. You will see three containers with lengthy names similar to the image names you just saw, again, one for each service.
+- [X] Run `docker ps -a` to see all running and stopped containers. You will see three containers with lengthy names similar to the image names you just saw, again, one for each service.
 
-- [ ] Lastly, run `docker network ls` to check out all the Docker Networks on your machine. You will see that it created a network exclusive to your app. All the containers that Compose created for you are attached to this network and are thus isolated from every other network on your machine. In other words, all the services in your app can talk to each other but cannot communicate with any other containers that may be running on your computer.
+- [X] Lastly, run `docker network ls` to check out all the Docker Networks on your machine. You will see that it created a network exclusive to your app. All the containers that Compose created for you are attached to this network and are thus isolated from every other network on your machine. In other words, all the services in your app can talk to each other but cannot communicate with any other containers that may be running on your computer.
 
 Now I want to talk about a unique property of this network that you'll find really useful. Remember how, in the last Module, we had to find the IP address of the mongo container with `docker network inspect` in order to connect to it properly from our other containers? **It is WAY simpler with Docker Compose**
 
-- [ ] Open up the 'index.js' file in either the 'survey_surver' or the 'results_server' directory. 
+- [X] Open up the 'index.js' file in either the 'survey_surver' or the 'results_server' directory. 
 
-- [ ] Check out the mongoUrl we are connecting to the database container with. Notice anything different??? 
+- [X] Check out the mongoUrl we are connecting to the database container with. Notice anything different??? 
 
 Instead of an IP4Address, the address is just the word 'database'. And it works. How is this possible? Well it turns out that all non-default networks ([user-defined networks](https://docs.docker.com/engine/userguide/networking/#user-defined-networks)) support something called automatic service discovery. You can read more about this [here](https://docs.docker.com/docker-cloud/apps/service-links/) but basically, **if containers are attached to networks that you made, you can reference their service name or container name rather than the IP4Address!** 
 
 This is incredibly useful for large complicated apps since you don't have to keep track of all the addresses for all your services. Additionally, it is possible that a service will be spun up at a different IP4Address between builds. Referencing the services lets the computer figure out the addresses rather than making you keep track of them and keeping them up to date!
 
-- [ ] Next we're going to bring up the app again, but this time in a detached state. Run:
+- [X] Next we're going to bring up the app again, but this time in a detached state. Run:
 
 ```sh
 docker-compose up -d
@@ -180,9 +180,9 @@ docker-compose up -d
 
 Notice how much faster the app came up! This had nothing to do with the fact that we added the `-d` option (this just runs our app in the background), but rather, it came up so fast because it reused everything that it had created the first time `docker-compose up` was run.
 
-- [ ] Let's try out another command! Run `docker-compose down`
+- [X] Let's try out another command! Run `docker-compose down`
 
-- [ ] Read the message that it logged, you should see something like: 
+- [X] Read the message that it logged, you should see something like: 
 
 ```sh
 Stopping 6dockercomposeformulticontainerapps_survey_1 ... done
@@ -197,13 +197,13 @@ Removing network 6dockercomposeformulticontainerapps_default
 
 ```
 
-- [ ] `docker-compose down` does three things, first it stops all the app's containers
+- [X] `docker-compose down` does three things, first it stops all the app's containers
 
-- [ ] Next it removes all the app's containers; confirm that they are gone by running `docker ps -a`-
+- [X] Next it removes all the app's containers; confirm that they are gone by running `docker ps -a`-
 
-- [ ] Finally it removes the network that your app's containers were attached to; run `docker network ls` to confirm this.
+- [X] Finally it removes the network that your app's containers were attached to; run `docker network ls` to confirm this.
 
-- [ ] There are some things that `docker-compose down` does not remove however. Run `docker images` and you will see that all the images are still on your machine.
+- [X] There are some things that `docker-compose down` does not remove however. Run `docker images` and you will see that all the images are still on your machine.
 
 ---
 >Since these images are cached, the next time you bring the app it will come up much faster since it doesn't have to rebuild the images, just make containers from them.
@@ -214,9 +214,9 @@ Removing network 6dockercomposeformulticontainerapps_default
 
 ---
 
-- [ ] Run `docker-compose up -d` again
+- [X] Run `docker-compose up -d` again
 
-- [ ] This time, however, bring it down with the following command:
+- [X] This time, however, bring it down with the following command:
 
 ```sh
 docker-compose down --rmi all
@@ -224,25 +224,25 @@ docker-compose down --rmi all
 
 The `--rmi all` option removes not only the containers and network that it created for your app, but also the images. This is a good thing to do since images take up a lot of space, if you're done with them you want to make sure to get rid of them.
 
-- [ ] Run `docker images` to confirm that they are indeed gone.
+- [X] Run `docker images` to confirm that they are indeed gone.
  
 #### Another Note About Saving Memory
 
 **This part is important, please read.** Remember how I mentioned that Docker uses up quite a bit of memory when you forget to clean up after yourself? Well the volumes that you have been using in these containers are a chief culprit. **After messing around with Docker for the first time, I accumulated like 3 gigabytes of volumes on my machine. Oops. **Don't be like me. Clean up your volumes**
 
-- [ ] Remove ALL your containers using `docker ps -a` and `docker rm -f <container-names>`
+- [X] Remove ALL your containers using `docker ps -a` and `docker rm -f <container-names>`
 
-- [ ] Run the command `docker volume ls` to see all the volumes on your machine. Despite the fact that they there are no containers on your machine anymore, the volumes are left behind. There are some strategies you can use to clean these up:
+- [X] Run the command `docker volume ls` to see all the volumes on your machine. Despite the fact that they there are no containers on your machine anymore, the volumes are left behind. There are some strategies you can use to clean these up:
 
 - Use the -v option when using the `docker-compose down` command. This will delete any volumes associated with the containers you are deleting.
 
 - Use `docker volume prune` - This will remove any dangling volumes that are not currently associated with a container. This command will ask you to confirm that you want to do this and then tell you how much memory it reclaimed. It's usually quite a lot!
 
-- Using the `--rm` option when spinning up containers with the `docker run` command will not only remove the container when it it stopped, but it will also remove its volume! The more you know.
+- Using the `--rm` option when spinning up containers with the `docker run` command will not only remove the container when it is stopped, but it will also remove its volume! The more you know.
 
-- [ ] Run the command `docker volume prune` to get rid of the dangling volumes on your machine. Type `y` then enter when asked to confirm.
+- [X] Run the command `docker volume prune` to get rid of the dangling volumes on your machine. Type `y` then enter when asked to confirm.
 
-- [ ] Revel in all the disk space you reclaimed.
+- [X] Revel in all the disk space you reclaimed.
 
 That's it! I hope you enjoyed learning about Docker Compose! After typing out every command to get your apps running in the previous Modules, it's easy to appreciate all that Compose does for you. It saves a ton of time and brainpower that you could otherwise be using so solve bigger challenges... like how to scale your app! Luckily for you, that's the topic of our next Module -> [Module 7 - Docker Swarm for Scaling](https://github.com/dylanlrrb/Please-Contain-Yourself/tree/master/7-Docker_Swarm_For_Scaling)
 

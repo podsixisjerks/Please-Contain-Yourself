@@ -37,8 +37,7 @@ This type of software design yields a 'monolithic' application. Think of the 'mo
 
 **Adopting a microservices architecture rather than a monolithic one offers several advantages:**
 
-- First, it's more robust - in a microservices architecture, the monolith is “broken up” into a set of independent services that are
-developed, deployed and maintained separately. If there is one part that needs to be changed or tweaked for whatever reason, you don't have to take down your entire app to change it and relaunch the entire monolithic application.
+- First, it's more robust - in a microservices architecture, the monolith is “broken up” into a set of independent services that are developed, deployed and maintained separately. If there is one part that needs to be changed or tweaked for whatever reason, you don't have to take down your entire app to change it and relaunch the entire monolithic application.
 
 - Second, different services can be scaled differently. Say you need more servers or maybe more databases to handle a large influx of users, using the concept of ['horizontal scaling'](https://en.wikipedia.org/wiki/Scalability#Horizontal_and_vertical_scaling) you can just spin up more containers responsible for that function rather than duplicating or taking down the entire monolith of an application.
 
@@ -53,7 +52,7 @@ Well let me lay some knowledge on your brain. As the frickin' adorable image at 
 **They're called Docker Networks - let's learn about em'!**
 
 ---
->Side note: If you were previously familiar with Docker before reading this guide, you may have been under the impression that containers were connected via the ` --link` option used during `docker run`. And you WOULD have been right, however, ` --link` has been depreciated since version 1.12 and may completely disappear at any moment... now it's hip to use Networks. Get with the times, gramps.
+>Side note: If you were previously familiar with Docker before reading this guide, you may have been under the impression that containers were connected via the ` --link` option used during `docker run`. And you WOULD have been right, however, ` --link` has been deprecated since version 1.12 and may completely disappear at any moment... now it's hip to use Networks. Get with the times, gramps.
 
 ---
 
@@ -83,19 +82,19 @@ Docker is the only thing you need from now on! So let's get started spinning the
 
 **First:** Let's build those images:
 
-- [ ] Build your survey server image and tag it with the name 'survey' by running `docker build -t survey .`
+- [X] Build your survey server image and tag it with the name 'survey' by running `docker build -t survey .`
 
 **REMEMBER the dot is a relative file path to where your Dockerfile lives (one is included for each server), so MAKE SURE you are cd'd into the correct directory before running this command**
 
-- [ ] Build your results server image and tag it with the name 'results' by running `docker build -t results .`
+- [X] Build your results server image and tag it with the name 'results' by running `docker build -t results .`
 
-- [ ] Pull down a MongoDB image by running `docker pull mongo:latest`
+- [X] Pull down a MongoDB image by running `docker pull mongo:latest`
 
 This saves us a lot of time - since we straight up just need a MongoDB database and don't need to configure it in any way we'll just pull the official image from Dockerhub. As with every other time you used the `docker pull` command it grabs the image from Dockerhub and caches it on your machine. This time is no different. However, the way you spin up the official MongoDB image is a little different than we are used to; let's check it out ->
 
 **Second:** Run the containers:
 
-- [ ] First, we'll spin up the MongoDB container. Run `docker run -d --name mongo mongo:latest`
+- [X] First, we'll spin up the MongoDB container. Run `docker run -d --name mongo mongo:latest`
 
 You might be wondering, **'Where's the -p port mapping option that we've used EVERY OTHER TIME?!?!?'**
 
@@ -108,23 +107,23 @@ I NETWORK  [thread1] waiting for connections on port 27017
 ```
 "This image includes `EXPOSE 27017` (the mongo port), so standard container networking will make it automatically available to containers on the same network" -- [Official MongoDB image](https://hub.docker.com/_/mongo/)
 
-- [ ] Next let's spin up the other two server images we made, survey and results
+- [X] Next let's spin up the other two server images we made, survey and results
 
 Be sure to also mount volumes in the respective directories just in case, i don't know, we want to make quick changes to the source code. *cough cough* (we will)
 
-- [ ] cd into '/survey_server' and run:
+- [X] cd into '/survey_server' and run:
 
 `docker run -d -p 8080:8080 -v $(pwd):/src/app --name survey_container survey`
 
-- [ ] cd into '/results_server' and run:
+- [X] cd into '/results_server' and run:
 
 `docker run -d -p 3000:3000 -v $(pwd):/src/app --name results_container results`
 
-- [ ] Now pull up the app by navigating to `localhost:8080` and `localhost:3000` in your browser! You should definitely have your hopes up because I totally didn't give you broken code on purpose!
+- [X] Now pull up the app by navigating to `localhost:8080` and `localhost:3000` in your browser! You should definitely have your hopes up because I totally didn't give you broken code on purpose!
 
 **(Just kidding, I gave you broken code on purpose)**
 
-- [ ]  As you can see, the app is completly broken. Fortunatly, to get it working, we only have to tweak one line of code in each server. But which one? Run the command `docker logs survey_container` to look for clues inside the container's logs...
+- [X]  As you can see, the app is completly broken. Fortunately, to get it working, we only have to tweak one line of code in each server. But which one? Run the command `docker logs survey_container` to look for clues inside the container's logs...
 
 You should see that the app has crashed and, examining the error stack, you should notice that the distal cause for the crash is described with the log:
 
@@ -145,7 +144,7 @@ Looks like the survey_container server crashed because it couldn't connect to th
 
 To talk about how to solve this communication problem, I first need to formally introduce Docker Networking. I like to think of Docker Networks as a kind of 'internet' that only docker containers can use. But there's a cool little catch - you can create many isolated networks so that containers connected to a network can all talk to each other but not containers on other networks! This is super useful for controlling the flow of possibly sensitive data between containers.
 
-- [ ] Docker comes installed with 3 ready-to-go networks, to check them out run the command `docker network ls`
+- [X] Docker comes installed with 3 ready-to-go networks, to check them out run the command `docker network ls`
 
 You should see something like this:
 
@@ -162,7 +161,7 @@ You might be wondering, **"Hey, when I spun up all the containers for this modul
 
 But that would be silly. When you spin up a container without specifying a network to connect it to (**Something we will learn how to do in little bit**) it is AUTOMATICALLY connected to the 'bridge' network that comes with Docker by default.
 
-- [ ] Good to know that they're not floating out in space somewhere, but I'd feel better if we had some visual proof of where they are connected. Run `docker network inspect bridge`
+- [X] Good to know that they're not floating out in space somewhere, but I'd feel better if we had some visual proof of where they are connected. Run `docker network inspect bridge`
 
 The `docker network inspect` command gives you an overview of the network whose name you specify in the last argument of the command. In this case we are inspecting the 'bridge' network and you should see something like this logged:
 
@@ -255,19 +254,19 @@ Remember how I said that Docker Networks are kind of like an 'internet' within D
 172.17.0.2
 ```
 
-- [ ] Open up the 'index.js' for both the survey_server and the results_server
+- [X] Open up the 'index.js' for both the survey_server and the results_server
 
-- [ ] On line 8 of both files, change the address string that the server is trying to connect to the database with. Inside the string, change the address 'localhost' to the IPv4Address of the mongo container
+- [X] On line 8 of both files, change the address string that the server is trying to connect to the database with. Inside the string, change the address 'localhost' to the IPv4Address of the mongo container
 
 **This address may be different for you, so make sure you inspect the network on your own machine to find it!**
 
 Because you mounted volumes with the two server containers that you spun up, this change in the source code should be immediately  reflected in the containers (**once you save, of course**).
 
-- [ ] Navigate to `localhost:8080` and `localhost:3000` in separate tabs to check out the app!
+- [X] Navigate to `localhost:8080` and `localhost:3000` in separate tabs to check out the app!
 
-- [ ] Fill out the form provided on `localhost:8080` and hit submit to create an entry. Then at `localhost:3000` refresh the page to show all the entries listed!
+- [X] Fill out the form provided on `localhost:8080` and hit submit to create an entry. Then at `localhost:3000` refresh the page to show all the entries listed!
 
-- [ ] **After you are done with these containers, be sure to remove them (or at least stop them). Nodemon's file watching feature can sometimes take up a chunk of CPU power** Run:
+- [X] **After you are done with these containers, be sure to remove them (or at least stop them). Nodemon's file watching feature can sometimes take up a chunk of CPU power** Run:
 
 `docker rm -f survey_container results_container`
 
